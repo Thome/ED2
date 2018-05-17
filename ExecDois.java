@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package execum;
 
 import edu.princeton.cs.algs4.SET;
@@ -15,10 +10,16 @@ import java.util.Random;
  *
  * @author thome pereira alves neto
  */
+
 public class ExecDois {
     
+    //Construtor
     private ExecDois() { }
     
+    //Dedup(int N, int M)
+    //Recebe como entrada a quantidade N de números aleatórios a serem gerados
+    //E recebe o limite superior M para geração dos N números
+    //Dedup armazena números novos e imprime repetidos
     public static void Dedup(int N, int M){ 
         SET set = new SET();
         Random rand = new Random();
@@ -33,6 +34,12 @@ public class ExecDois {
         }
     }
     
+    //AleatoriosRepetidos()
+    //Recebe T, N e M por linha de comando
+    //T: Número de experimentos
+    //N: Quantidade de inteiros aleatórios
+    //M: Limitante superior pra geração de inteiros
+    //Não usa Stopwatch
     public static void AleatoriosRepetidos(){
         int T, N, M;
         System.out.print("Digite T, N e M, respectivamente.");
@@ -45,6 +52,12 @@ public class ExecDois {
         }    
     }
     
+    //AleatoriosRepetidos(int T, int N, int M)
+    //Recebe T, N e M como entrada
+    //T: Número de experimentos
+    //N: Quantidade de inteiros aleatórios
+    //M: Limitante superior pra geração de inteiros
+    //Cronometra sua duração com stopwatch
     public static double AleatoriosRepetidos(int T, int N, int M){
         Stopwatch watch = new Stopwatch();
         while (T > 0) { 
@@ -55,6 +68,9 @@ public class ExecDois {
         return time;
     }
     
+    //main
+    //Usa AleatoriosRepetidos(T, N, M) com T igual a 10 e N igual a 10^7, 10^8, e 10^9, e com M igual a N/2, N e 2N.
+    //Cronometra a duração desses experimentos com stopwatch
     public static void main(String[] args) {
         double time;
         int DezaSete = (int) Math.pow(10, 7);
