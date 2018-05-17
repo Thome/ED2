@@ -59,9 +59,11 @@ public class ExecUm {
         return time;    
     }
     
-    /**
-     * @param args the command line arguments
-     */
+    //Recebe dois arquivos como entrada
+    //O livro tale.txt
+    //O vocabulário words.utf-8.txt
+    //Compara o desempenho das implementações BlackFilter
+    //BF SeparateChaining e BF LinearProbing
     public static void main(String[] args) {
         SeparateChainingHashST<String, String> SC = new SeparateChainingHashST<>();
         LinearProbingHashST<String, String> LP = new LinearProbingHashST<>();
@@ -75,7 +77,6 @@ public class ExecUm {
         //Duração de BlackFilter com LinearProbing
         double timeLP = BlackFilter(LP, wordList, tale);
         
-        //Comparação de desempenho entre SeparateChaining e LinearProbing
         if (timeSC < timeLP)
             System.out.printf("\nSeparateChaining foi melhor, com %2f segundos!", timeSC);
         else if (timeLP < timeSC)
