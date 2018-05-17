@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package newpackage;
+package execum;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
 import edu.princeton.cs.algs4.LinearProbingHashST;
@@ -15,7 +10,54 @@ import edu.princeton.cs.algs4.StdOut;
  */
 public class ExecUm {
 
+    //Construtor
     private ExecUm() { }
+    
+    //Recebe como entrada uma tabela hash "SC" de Separate Chaining,
+    //uma "wordList" (filtro) de palavras, e a lista "tale" a ser filtrada
+    //Imprime as palavras na lista ausentes no filtro
+    //Retorna a duração da filtragem
+    public static double BlackFilter(SeparateChainingHashST<String, String> SC, 
+                                     In wordList, In tale){
+        Stopwatch watch = new Stopwatch();
+        
+        while (!wordList.isEmpty()) {
+            String word = wordList.readString();
+            SC.put(word, word);
+        }
+        
+        while (!tale.isEmpty()) {
+            String word = tale.readString();
+            if (!SC.contains(word))
+                StdOut.println(word);
+        }
+        
+        double time = watch.elapsedTime();
+        return time;    
+    }
+    
+    //Recebe como entrada uma tabela hash "LP" de Linear Probing,
+    //uma "wordList" (filtro) de palavras, e a lista "tale" a ser filtrada
+    //Imprime as palavras na lista ausentes no filtro
+    //Retorna a duração da filtragem
+    public static double BlackFilter(LinearProbingHashST<String, String> LP, 
+                                     In wordList, In tale){
+        Stopwatch watch = new Stopwatch();
+        
+        while (!wordList.isEmpty()) {
+            String word = wordList.readString();
+            LP.put(word, word);
+        }
+        
+        while (!tale.isEmpty()) {
+            String word = tale.readString();
+            if (!LP.contains(word))
+                StdOut.println(word);
+        }
+        
+        double time = watch.elapsedTime();
+        return time;    
+    }
     
     /**
      * @param args the command line arguments
@@ -24,44 +66,16 @@ public class ExecUm {
         SeparateChainingHashST<String, String> SC = new SeparateChainingHashST<>();
         LinearProbingHashST<String, String> LP = new LinearProbingHashST<>();
         
-        In wordListSC = new In(args[0]);
-        In wordListLP = new In(args[0]);
-        In taleSC = new In(args[1]);
-        In taleLP = new In(args[1]);
+        In wordList = new In(args[0]);
+        In tale = new In(args[1]);
         
-        //BlackFilter com SeparateChaining
-        Stopwatch watchSC = new Stopwatch();
+        //Duração de BlackFilter com SeparateChaining
+        double timeSC = BlackFilter(SC, wordList, tale);
         
-        while (!wordListSC.isEmpty()) {
-            String word = wordListSC.readString();
-            SC.put(word, word);
-        }
+        //Duração de BlackFilter com LinearProbing
+        double timeLP = BlackFilter(LP, wordList, tale);
         
-        while (!taleSC.isEmpty()) {
-            String word = taleSC.readString();
-            if (!SC.contains(word))
-                StdOut.println(word);
-        }
-        
-        double timeSC = watchSC.elapsedTime();
-        
-        //BlackFilter com LinearProbing
-        Stopwatch watchLP = new Stopwatch();
-        
-        while (!wordListLP.isEmpty()) {
-            String word = wordListLP.readString();
-            LP.put(word, word);
-        }
-        
-        while (!taleLP.isEmpty()) {
-            String word = taleLP.readString();
-            if (!LP.contains(word))
-                StdOut.println(word);
-        }
-        
-        double timeLP = watchLP.elapsedTime();
-        
-        //Comparação
+        //Comparação de desempenho entre SeparateChaining e LinearProbing
         if (timeSC < timeLP)
             System.out.printf("\nSeparateChaining foi melhor, com %2f segundos!", timeSC);
         else if (timeLP < timeSC)
