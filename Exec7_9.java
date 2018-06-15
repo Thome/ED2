@@ -5,9 +5,13 @@ package exec7_9;
  * @author thome pereira alves neto
  * @author matheus santos almeida
  */
+import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.TrieST;
 import java.io.*;
-import java.lang.StringBuilder;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.Scanner;
 
 /**
  * alfabeto: a b … y z ? 0 1 … 8 9 (e espaço em branco)
@@ -42,11 +46,11 @@ public class Exec7_9 {
             aux = (int) titulo.charAt(0);
             titulo = titulo.substring(1);
             if (aux == 32 || aux > 96 && aux < 123) {
-                novoTitulo.append(aux);
+                novoTitulo.append((char)aux);
             }
             else if (aux > 64 && aux < 91) {
                 aux = aux + 32;
-                novoTitulo.append(aux);
+                novoTitulo.append((char)aux);
             }
             else if (contido(a, aux))
                 novoTitulo.append("a");
@@ -71,6 +75,24 @@ public class Exec7_9 {
         return novoTitulo.toString();
     }
     
+    public static Set<String> withPrefix(TrieST trie, String prefix){
+    	Set<String> res = new HashSet();
+    	for (Object string : trie.keysWithPrefix(prefix)) {
+            res.add((String)string);
+	}
+    	return res;
+    }
+    public static String longestPrefix(TrieST trie, String prefix){
+    	return trie.longestPrefixOf(prefix.toLowerCase());
+    }
+    public static Set<String> matches(TrieST trie, String pattern){
+    	Set<String> res = new HashSet();
+    	for (Object string : trie.keysThatMatch(pattern)) {
+            res.add((String)string);
+        }
+    	return res;
+    }
+    
     public static void main(String[] args) throws FileNotFoundException, IOException {
         TrieST trie = new TrieST();
         File file = new File("C:\\Users\\user\\Documents\\NetBeansProjects\\Exec7_9\\src\\exec7_9\\movies.txt");
@@ -83,6 +105,27 @@ public class Exec7_9 {
             trie.put(novoTitulo, cont);
             cont++;
         }
+        
+        Scanner in = new Scanner(System.in);
+        while(true){
+            System.out.println("Insira uma query para consulta:");
+            String query = in.nextLine();
+            
+            System.out.println("(1) os títulos dos filmes que tem s como prefixo:");
+            for (String s : withPrefix(trie, query)) {
+                System.out.println(s);
+            }
+            
+            System.out.println("(2) o mais longo prefixo de s que é um título de filme:");
+            System.out.println(longestPrefix(trie, query));
+            
+            System.out.println("(3) os títulos dos filmes que casam com s quando os caracteres '.' em s são interpretados como curingas:");
+            for (String s : matches(trie,query)) {
+                System.out.println(s);
+            }
+        }
+        
+        
     }
     
 }
